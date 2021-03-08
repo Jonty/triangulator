@@ -81,6 +81,8 @@
 
 		var loopFrame;
 		var playing = false;
+		threshold = 10;
+
 		function loop() {
 		    loopFrame = requestAnimationFrame(loop);
 		    if (playing) {
@@ -89,7 +91,7 @@
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                        tracking.Fast.THRESHOLD = 10;
+                        tracking.Fast.THRESHOLD = threshold;
                         var imageData = vctx.getImageData(0, 0, vcanvas.width, vcanvas.height);
                         var gray = tracking.Image.grayscale(imageData.data, vcanvas.width, vcanvas.height);
                         var corners = tracking.Fast.findCorners(gray, vcanvas.width, vcanvas.height);
@@ -187,6 +189,18 @@
 			    link.href = canvas.toDataURL()
 			    link.click();
 			    link.parentNode.removeChild(link);
+			    break
+			case 38:
+			    if(threshold < 100) {
+				threshold = threshold + 1
+			    }
+			    console.log("Threshold now ", threshold)
+			    break
+			case 40:
+			    if(threshold > 0) {
+				threshold = threshold - 1
+			    }
+			    console.log("Threshold now ", threshold)
 			    break
 		    }
 		}
