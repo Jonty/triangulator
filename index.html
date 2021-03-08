@@ -94,11 +94,18 @@
                         var gray = tracking.Image.grayscale(imageData.data, vcanvas.width, vcanvas.height);
                         var corners = tracking.Fast.findCorners(gray, vcanvas.width, vcanvas.height);
 
-			console.log(corners);
-
                         var i, j = 0;
                         var chunk = 2;
                         var coords = new Array();
+
+			/* Add each corner of the window as a tracking point, to ensure it gets filled
+			   rather than showing the tracking point hull */
+
+			coords.push([0,0]); // Top left
+			coords.push([canvas.width, 0]); // Top right
+			coords.push([0, canvas.height]); // Bottom left
+			coords.push([canvas.width, canvas.height]); // Bottom right
+
                         for (i = 0, j = corners.length; i < j; i += chunk) {
                             coords.push(corners.slice(i, i + chunk));
                         }
